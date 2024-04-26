@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using PontoMVC.Models;
+﻿using Newtonsoft.Json;
 using TEAapp.Models;
 
-namespace TEAapp.Helper
+namespace TEAapp.Helper.Sessao
 {
     public class Sessao : ISessao
     {
@@ -24,7 +22,7 @@ namespace TEAapp.Helper
             //Em criarsessao foi trasformado em json. Aqui vamos montar o obj novamente.
             string sessaoUsuario = _httpContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
             if (string.IsNullOrEmpty(sessaoUsuario)) return null;
-            return JsonConvert.DeserializeObject<UsuarioModel>(sessaoUsuario);
+            return JsonConvert.DeserializeObject<Pessoa>(sessaoUsuario);
 
         }
         public void RemoverSessaoUsuario()

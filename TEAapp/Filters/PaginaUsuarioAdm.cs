@@ -1,23 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
-using PontoMVC.Models;
+using TEAapp.Models;
 
-namespace PontoMVC.Filters
+namespace TEAapp.Filters
 {
     public class PaginaUsuarioAdm : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            string sessaoUsuaro = context.HttpContext.Session.GetString("sessaoUsuarioLogado");
+            string sessaoUsuario = context.HttpContext.Session.GetString("sessaoUsuarioLogado");
 
-            if (string.IsNullOrEmpty(sessaoUsuaro))
+            if (string.IsNullOrEmpty(sessaoUsuario))
             {
                 context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
             }
             else
             {
-                UsuarioModel usuario = JsonConvert.DeserializeObject<UsuarioModel>(sessaoUsuaro);
+                Pessoa usuario = JsonConvert.DeserializeObject<Pessoa>(sessaoUsuario);
 
                 if (usuario == null)
                 {

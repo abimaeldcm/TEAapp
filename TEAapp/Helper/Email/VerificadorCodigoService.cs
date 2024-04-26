@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 
-namespace TEAapp.Helper
+namespace TEAapp.Helper.Email
 {
     public class VerificadorCodigoService
     {

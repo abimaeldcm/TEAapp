@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TEAapp.Helper;
+using TEAapp.Helper.Email;
+using TEAapp.Helper.Sessao;
 using TEAapp.Models;
 using TEAapp.Service;
 using TEAapp.Service.Interfaces;
@@ -8,14 +9,16 @@ namespace TEAapp.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly ICRUDService<Login> _service;
+        private readonly ILoginMedicoService _loginService;
+        private readonly IMedicoService _service;
         private readonly ISessao _session;
         private readonly IEmailService _emailService;
         private readonly VerificadorCodigoService _VerificadorDeCodigoService;
 
-        public LoginController(LoginService usuarioService, ISessao session, IEmailService emailService, VerificadorCodigoService verificadorDeCodigoService)
+        public LoginController(ILoginMedicoService loginService, IMedicoService service, ISessao session, IEmailService emailService, VerificadorCodigoService verificadorDeCodigoService)
         {
-            _service = usuarioService;
+            _loginService = loginService;
+            _service = service;
             _session = session;
             _emailService = emailService;
             _VerificadorDeCodigoService = verificadorDeCodigoService;
@@ -45,7 +48,7 @@ namespace TEAapp.Controllers
         {
             try
             {
-                object usuarioDB = await _service.Logar(usuario);
+                Pessoa usuarioDB = await _loginService.Logar(usuario);
                 if (usuarioDB != null)
                 {
                     _session.CriarSessaoDoUsuario(usuarioDB);
@@ -61,7 +64,7 @@ namespace TEAapp.Controllers
                 return View("Index");
             }
         }
-        public IActionResult EsqueciSenha()
+       /* public IActionResult EsqueciSenha()
         {
             return View("PrimeiroLogin");
         }
@@ -147,7 +150,7 @@ namespace TEAapp.Controllers
             return RedirectToAction("Index", "Login");
         }
 
-
+        */
 
     }
 }

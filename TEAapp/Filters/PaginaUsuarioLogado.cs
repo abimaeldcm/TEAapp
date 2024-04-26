@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
-using PontoMVC.Models;
 
-namespace PontoMVC.Filters
+namespace TEAapp.Filters
 {
     public class PaginaUsuarioLogado : ActionFilterAttribute
     {

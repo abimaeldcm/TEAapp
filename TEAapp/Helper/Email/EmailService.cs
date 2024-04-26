@@ -1,15 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Net.Mail;
 using System.Net;
-using System.Net.Mail;
-using System.Threading.Tasks;
 
-namespace TEAapp.Helper
+namespace TEAapp.Helper.Email
 {
-    public interface IEmailService
-    {
-        Task<bool> SendEmailAsync(string toEmail, string subject, string message);
-    }
-
     public class EmailService : IEmailService
     {
         private readonly IConfiguration _configuration;
@@ -19,7 +12,7 @@ namespace TEAapp.Helper
             _configuration = configuration;
         }
 
-        public async Task<bool> SendEmailAsync(string toEmail, string subject, string message)
+        public async Task<bool> EnviarEmail(string email, string assunto, string messagem)
         {
             try
             {
@@ -35,9 +28,9 @@ namespace TEAapp.Helper
 
                     using (var emailMessage = new MailMessage())
                     {
-                        emailMessage.To.Add(new MailAddress(toEmail));
-                        emailMessage.Subject = subject;
-                        emailMessage.Body = message;
+                        emailMessage.To.Add(new MailAddress(email));
+                        emailMessage.Subject = assunto;
+                        emailMessage.Body = messagem;
                         emailMessage.From = new MailAddress(smtpSettings["Username"]);
 
                         await client.SendMailAsync(emailMessage);
@@ -45,11 +38,12 @@ namespace TEAapp.Helper
                 }
                 return true;
             }
-            catch 
-            { 
+            catch
+            {
                 return false;
             }
-                
+
         }
     }
 }
+
